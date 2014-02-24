@@ -1,0 +1,11 @@
+{
+    "name": "litus/php-cs",
+    "require": {
+        "fabpot/php-cs-fixer": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Litus\\CodeStyle\\": ""
+        }
+    }
+}
