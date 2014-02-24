@@ -11,13 +11,16 @@
 namespace Litus\CodeStyle\Config;
 
 use Symfony\CS\Config\Config as BaseConfig,
-    Litus\CodeStyle\Fixer\License as LicenseFixer;
+    Litus\CodeStyle\Fixer\License as LicenseFixer,
+    Litus\CodeStyle\Finder\Finder;
 
 class Config extends BaseConfig
 {
     public function __construct()
     {
         parent::__construct('litus', 'The configuration for Litus');
+
+        $this->finder(new Finder());
     }
     /**
      * Adds a fixer to check for the existence of a license.

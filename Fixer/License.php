@@ -17,7 +17,7 @@ use Symfony\CS\FixerInterface as Fixer,
 class License implements Fixer
 {
     const REGEXP_NO_LICENSE          = '/^<\?php\s*\r?\n\s*\r?\n/s';
-    const REGEXP_LICENSE             = '/^<\?php\s*\r?\n\/\*\*?\s*\r?\n(.*?)\r?\n\s*\*\//s';
+    const REGEXP_LICENSE             = '/^<\?php\s*\r?\n(\/\*\*?\s*\r?\n.*?\r?\n\s*\*\/)/s';
     const REGEXP_TRAILING_WHITESPACE = '/\s*$/';
     const REGEXP_NEWLINE             = '/\r?\n$/m';
 
@@ -64,7 +64,7 @@ class License implements Fixer
             return $content;
         }
 
-        $matchedLicense = '/*' . "\n" . $matches[1] . "\n" . ' */';
+        $matchedLicense = $matches[1];
         if (strcmp($matchedLicense, $this->_license) !== 0) {
             echo 'File ' . $path . ' has a different license header, replacing...' . PHP_EOL;
 
