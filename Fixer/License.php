@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Litus/CodeStyle creates some helpers for php-cs-fixer project by Fabien Potencier.
  * Built with all the love in the world by @bgotink, licensed under the GPL v3.
  *
@@ -17,7 +17,7 @@ use Symfony\CS\FixerInterface as Fixer,
 class License implements Fixer
 {
     const REGEXP_NO_LICENSE          = '/^<\?php\s*\r?\n\s*\r?\n/s';
-    const REGEXP_LICENSE             = '/^<\?php\s*\r?\n\/\*\s*\r?\n(.*?)\r?\n\s*\*\//s';
+    const REGEXP_LICENSE             = '/^<\?php\s*\r?\n\/\*\*?\s*\r?\n(.*?)\r?\n\s*\*\//s';
     const REGEXP_TRAILING_WHITESPACE = '/\s*$/';
     const REGEXP_NEWLINE             = '/\r?\n$/m';
 
@@ -33,7 +33,7 @@ class License implements Fixer
 
         $lines = array();
 
-        $lines[] = '/*';
+        $lines[] = '/**';
         foreach (file($file) as $line)
             $lines[] = preg_replace(self::REGEXP_TRAILING_WHITESPACE, '', ' * ' . $line);
         $lines[] = ' */';

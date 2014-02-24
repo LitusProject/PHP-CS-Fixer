@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Litus/CodeStyle creates some helpers for php-cs-fixer project by Fabien Potencier.
  * Built with all the love in the world by @bgotink, licensed under the GPL v3.
  *
