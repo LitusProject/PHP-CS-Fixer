@@ -14,10 +14,19 @@ use Symfony\CS\Finder\DefaultFinder;
 
 class Finder extends DefaultFinder
 {
+    private $_excludedFiles = array();
+
     protected function getFilesToExclude()
     {
-        return array(
+        return array_merge(array(
             'init_autoloader.php',
-        );
+        ), $this->_excludedFiles);
+    }
+
+    public function excludeFile($file)
+    {
+        $this->_excludedFiles[] = $file;
+
+        return $this;
     }
 }

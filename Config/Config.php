@@ -34,4 +34,11 @@ class Config extends BaseConfig
 
         return $this;
     }
+
+    public function excludeFile($file)
+    {
+        $this->finder->excludeFile($file);
+
+        return $this;
+    }
 }
