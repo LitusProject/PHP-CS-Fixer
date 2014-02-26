@@ -1,7 +1,7 @@
 <?php
 
 $finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->exclude('vendor/')
+    ->exclude('Resources')
     ->in(__DIR__);
 
 return Litus\CodeStyle\Config\Config::create()
