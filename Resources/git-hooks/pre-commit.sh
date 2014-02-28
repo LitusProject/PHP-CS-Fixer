@@ -31,8 +31,14 @@ if git diff --cached --quiet --exit-code; then
     exit 0
 fi
 
-(git diff --cached --name-only --diff-filter=ACMR $against |
-    while read line; do vendor/bin/php-cs-fixer fix $line; done) |
-    splitgrep -E -e '^\s+[0-9]+\)' |
-    cut -d')' -f2 | tr -d ' ' |
-    xargs git add
+# store changed files in .php_cs-files
+git diff --cached --name-only --diff-filter=ACMR $against > .php_cs-files
+
+# run php-cs-fixer
+vendor/bin/php-cs-fixer -vvv fix . |
+	splitgrep -E -e '^\s+[0-9]+\)' |
+	cut -d')' -f2 | tr -d ' ' |
+	xargs git add
+
+# remove changed files file
+rm -f .php_cs-files

@@ -11,22 +11,53 @@
 namespace Litus\CodeStyle\Finder;
 
 use Symfony\CS\Finder\DefaultFinder;
+use Litus\CodeStyle\Finder\Adapter\FileListAdapter;
 
 class Finder extends DefaultFinder
 {
-    private $_excludedFiles = array();
+    private $_files = null;
 
     protected function getFilesToExclude()
     {
-        return array_merge(array(
+        return array(
             'init_autoloader.php',
-        ), $this->_excludedFiles);
+        );
     }
 
-    public function excludeFile($file)
+    public function in($dir)
     {
-        $this->_excludedFiles[] = $file;
+        if (!is_string($dir) || !file_exists($dir . '/.php_cs-files')) {
+            return parent::in($dir);
+        }
 
-        return $this;
+        $files = file($dir . '/.php_cs-files', FILE_IGNORE_NEW_LINES);
+
+        // allow comments using #
+        array_walk($files,
+            function (&$file, $key) {
+                if (false !== ($idx = strpos('#', $file))) {
+                    $file = substr($file, 0, $idx);
+                }
+            }
+        );
+
+        // remove empty lines
+        $files = array_filter($files);
+
+        // store these files
+        $this->_files = $files;
+
+        return parent::in($dir);
+    }
+
+    public function getIterator()
+    {
+        if (null !== $this->_files) {
+            $adapter = new FileListAdapter($this->_files);
+            $this->addAdapter($adapter, 100)
+                ->setAdapter('litus');
+        }
+
+        return parent::getIterator();
     }
 }
