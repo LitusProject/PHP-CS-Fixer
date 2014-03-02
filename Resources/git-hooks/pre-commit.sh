@@ -35,7 +35,7 @@ fi
 git diff --cached --name-only --diff-filter=ACMR $against > .php_cs-files
 
 # run php-cs-fixer
-vendor/bin/php-cs-fixer -vvv fix . |
+vendor/bin/php-cs-fixer fix . |
 	splitgrep -E -e '^\s+[0-9]+\)' |
 	cut -d')' -f2 | tr -d ' ' |
 	xargs git add

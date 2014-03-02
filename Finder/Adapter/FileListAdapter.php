@@ -20,8 +20,9 @@
 
 namespace Litus\CodeStyle\Finder\Adapter;
 
-use Symfony\Component\Finder\Adapter\AbstractAdapter;
-use Symfony\Component\Finder\Iterator;
+use Symfony\Component\Finder\Adapter\AbstractAdapter,
+    Symfony\Component\Finder\Iterator,
+    Litus\CodeStyle\Iterator\FileIterator;
 
 /**
  * An Adapter that "finds" files within a given list of files.
@@ -47,7 +48,7 @@ class FileListAdapter extends AbstractAdapter
      */
     public function searchInDirectory($dir)
     {
-        $iterator = new Iterator\FilePathsIterator(array_unique($this->files), $dir);
+        $iterator = new FileIterator(array_unique($this->files), $dir);
 
         if ($this->minDepth > 0 || $this->maxDepth < PHP_INT_MAX) {
             $iterator = new Iterator\DepthRangeFilterIterator($iterator, $this->minDepth, $this->maxDepth);
