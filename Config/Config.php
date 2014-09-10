@@ -47,7 +47,7 @@ class Config extends BaseConfig
             'visibility',
 
             // Symfony
-            'concat_without_spaces', // negated by 'concat_with_spaces' in Contrib
+            // 'concat_without_spaces',
             'extra_empty_lines',
             'include',
             'multiline_array_trailing_comma',
@@ -68,6 +68,10 @@ class Config extends BaseConfig
             // 'ordered_use_fixer',
             // 'short_array_syntax',
             // 'strict',
+
+            // Litus
+            'license',
+            'single_use',
         ));
 
         $this->addCustomFixer(new SingleUseFixer());
