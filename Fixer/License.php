@@ -94,7 +94,7 @@ class License implements Fixer
 
     public function getName()
     {
-        return 'litus_license';
+        return 'license';
     }
 
     public function getDescription()
