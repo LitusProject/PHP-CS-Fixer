@@ -24,10 +24,50 @@ class Config extends BaseConfig
         $this->finder(new Finder());
 
         $this->fixers(array(
-            '-contrib',
-            '-multiple_use',
-            '-concat_without_spaces',
-            '-unused_use',
+            // PSR-0
+            // 'psr0',
+
+            // PSR-1
+            'encoding',
+            'short_tag',
+
+            // PSR-2
+            'braces',
+            'elseif',
+            'eof_ending',
+            'function_declaration',
+            'indentation',
+            'line_after_namespace',
+            'linefeed',
+            'lowercase_constants',
+            'lowercase_keywords',
+            // 'multiple_use',
+            'php_closing_tag',
+            'trailing_spaces',
+            'visibility',
+
+            // Symfony
+            'concat_without_spaces', // negated by 'concat_with_spaces' in Contrib
+            'extra_empty_lines',
+            'include',
+            'multiline_array_trailing_comma',
+            'new_with_braces',
+            'object_operator',
+            'operators_spaces',
+            'phpdoc_params',
+            'return',
+            'single_array_no_trailing_comma',
+            'spaces_cast',
+            'standardize_not_equal',
+            'ternary_spaces',
+            // 'unused_use',
+            'whitespacy_lines',
+
+            // Contrib
+            'concat_with_spaces',
+            // 'ordered_use_fixer',
+            // 'short_array_syntax',
+            // 'strict',
         ));
 
         $this->addCustomFixer(new SingleUseFixer());

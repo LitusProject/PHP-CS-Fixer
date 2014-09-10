@@ -31,11 +31,7 @@ class SingleUseFixer implements Fixer
             $declarationParts = explode(',', $declarationContent);
 
             foreach ($declarationParts as $declarationPart) {
-                if ($first) {
-                    $newUses[] = $this->detectIndent($tokens, $index) . 'use ' . trim($declarationPart);
-                } else {
-                    $newUses[] = ",\n    " . $this->detectIndent($tokens, $index) . trim($declarationPart);
-                }
+                $newUses[] = trim($declarationPart);
             }
 
             for ($i = $index; $i <= $endIndex; ++$i) {
@@ -43,9 +39,13 @@ class SingleUseFixer implements Fixer
             }
         }
 
-        $declarationContent = implode('', $newUses) . ';';
+        // sort
+        asort($newUses);
 
-        $declarationTokens = Tokens::fromCode('<?php '.$declarationContent);
+        $declarationContent = $this->detectIndent($tokens, $firstIndex) . 'use '
+                . implode(",\n    " . $this->detectIndent($tokens, $firstIndex), $newUses) . ';';
+
+        $declarationTokens = Tokens::fromCode('<?php' . $declarationContent);
         $declarationTokens[0]->clear();
 
         $tokens->insertAt($firstIndex, $declarationTokens);
@@ -74,7 +74,7 @@ class SingleUseFixer implements Fixer
     }
 
     /**
-     * Run at standard priority.
+     * Run at normal priority.
      */
     public function getPriority()
     {
@@ -96,6 +96,6 @@ class SingleUseFixer implements Fixer
 
     public function getDescription()
     {
-        return 'There MUST be one use keyword per class.';
+        return 'There MUST be one use keyword per class and MUST be ordered.';
     }
 }
