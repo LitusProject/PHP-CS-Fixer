@@ -49,6 +49,11 @@ class SingleUseFixer implements Fixer
             }
         }
 
+        if (null === $firstIndex) {
+            // no use statements
+            return $content;
+        }
+
         // sort
         asort($newUses);
 
