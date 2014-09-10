@@ -76,7 +76,7 @@ class License implements Fixer
 
     public function getLevel()
     {
-        return Fixer::ALL_LEVEL;
+        return Fixer::CONTRIB_LEVEL;
     }
 
     /**
