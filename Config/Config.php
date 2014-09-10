@@ -10,10 +10,10 @@
 
 namespace Litus\CodeStyle\Config;
 
-use Symfony\CS\Config\Config as BaseConfig;
-use Litus\CodeStyle\Fixer\License as LicenseFixer;
-use Litus\CodeStyle\Fixer\SingleUseFixer;
-use Litus\CodeStyle\Finder\Finder;
+use Litus\CodeStyle\Finder\Finder,
+    Litus\CodeStyle\Fixer\License as LicenseFixer,
+    Litus\CodeStyle\Fixer\SingleUseFixer,
+    Symfony\CS\Config\Config as BaseConfig;
 
 class Config extends BaseConfig
 {

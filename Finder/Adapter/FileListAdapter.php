@@ -20,9 +20,9 @@
 
 namespace Litus\CodeStyle\Finder\Adapter;
 
-use Symfony\Component\Finder\Adapter\AbstractAdapter,
-    Symfony\Component\Finder\Iterator,
-    Litus\CodeStyle\Iterator\FileIterator;
+use Litus\CodeStyle\Iterator\FileIterator,
+    Symfony\Component\Finder\Adapter\AbstractAdapter,
+    Symfony\Component\Finder\Iterator;
 
 /**
  * An Adapter that "finds" files within a given list of files.

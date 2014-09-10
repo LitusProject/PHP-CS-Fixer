@@ -10,9 +10,9 @@
 
 namespace Litus\CodeStyle\Fixer;
 
-use Symfony\CS\FixerInterface as Fixer,
+use RuntimeException,
     SplFileInfo,
-    RuntimeException;
+    Symfony\CS\FixerInterface as Fixer;
 
 class License implements Fixer
 {
@@ -28,14 +28,16 @@ class License implements Fixer
 
     public function __construct($file)
     {
-        if (!file_exists($file))
+        if (!file_exists($file)) {
             throw new RuntimeException('File ' . $file . ' doesn\'t exist');
+        }
 
         $lines = array();
 
         $lines[] = '/**';
-        foreach (file($file) as $line)
+        foreach (file($file) as $line) {
             $lines[] = preg_replace(self::REGEXP_TRAILING_WHITESPACE, '', ' * ' . $line);
+        }
         $lines[] = ' */';
 
         $this->_license = implode("\n", $lines);
@@ -43,8 +45,9 @@ class License implements Fixer
 
     private function _getLicense()
     {
-        if (null !== $this->_license)
+        if (null !== $this->_license) {
             return $this->_license;
+        }
     }
 
     public function fix(SplFileInfo $file, $content)

@@ -10,8 +10,8 @@
 
 namespace Litus\CodeStyle\Finder;
 
-use Symfony\CS\Finder\DefaultFinder;
-use Litus\CodeStyle\Finder\Adapter\FileListAdapter;
+use Litus\CodeStyle\Finder\Adapter\FileListAdapter,
+    Symfony\CS\Finder\DefaultFinder;
 
 class Finder extends DefaultFinder
 {
