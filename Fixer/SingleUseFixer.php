@@ -24,11 +24,13 @@ class SingleUseFixer implements Fixer
 
         $newUses = array();
         $firstIndex = null;
+        $indentation = '';
         $first = true;
 
         foreach ($uses as $index) {
             if (null === $firstIndex) {
                 $firstIndex = $index;
+                $indentation = $this->detectIndent($tokens, $index);
             }
 
             $endIndex = null;
@@ -50,8 +52,8 @@ class SingleUseFixer implements Fixer
         // sort
         asort($newUses);
 
-        $declarationContent = $this->detectIndent($tokens, $firstIndex) . 'use '
-                . implode(",\n    " . $this->detectIndent($tokens, $firstIndex), $newUses) . ';';
+        $declarationContent = $indentation . 'use '
+                . implode(",\n    " . $indentation, $newUses) . ';';
 
         $declarationTokens = Tokens::fromCode('<?php ' . $declarationContent);
         $declarationTokens[0]->clear();
