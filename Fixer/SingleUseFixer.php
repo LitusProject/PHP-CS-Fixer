@@ -1,6 +1,6 @@
 <?php
 
-namespace Litus\Fixer;
+namespace Litus\CodeStyle\Fixer;
 
 use SplFileInfo,
     Symfony\CS\FixerInterface as Fixer,
