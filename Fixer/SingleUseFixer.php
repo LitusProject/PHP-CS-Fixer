@@ -45,7 +45,7 @@ class SingleUseFixer implements Fixer
         $declarationContent = $this->detectIndent($tokens, $firstIndex) . 'use '
                 . implode(",\n    " . $this->detectIndent($tokens, $firstIndex), $newUses) . ';';
 
-        $declarationTokens = Tokens::fromCode('<?php' . $declarationContent);
+        $declarationTokens = Tokens::fromCode('<?php ' . $declarationContent);
         $declarationTokens[0]->clear();
 
         $tokens->insertAt($firstIndex, $declarationTokens);
