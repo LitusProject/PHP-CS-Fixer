@@ -13,7 +13,7 @@ namespace Litus\CodeStyle\Fixer;
 use RuntimeException,
     SplFileInfo,
     Symfony\CS\FixerInterface as Fixer,
-    Symfony\CS\Tokens;
+    Symfony\CS\Tokenizer\Tokens;
 
 class SingleUseFixer implements Fixer
 {
@@ -34,7 +34,7 @@ class SingleUseFixer implements Fixer
             }
 
             $endIndex = null;
-            $tokens->getNextTokenOfKind($index, array(';'), $endIndex);
+            $endIndex = $tokens->getNextTokenOfKind($index, array(';'));
 
             $declarationContent = $tokens->generatePartialCode($index + 1, $endIndex - 1);
 
@@ -60,7 +60,7 @@ class SingleUseFixer implements Fixer
         $declarationContent = $indentation . 'use '
                 . implode(",\n    " . $indentation, $newUses) . ';';
 
-        $declarationTokens = Tokens::fromCode('<?php ' . $declarationContent);
+        $declarationTokens = Tokens::fromCode("<?php\n" . $declarationContent);
         $declarationTokens[0]->clear();
 
         $tokens->insertAt($firstIndex, $declarationTokens);
@@ -78,7 +78,7 @@ class SingleUseFixer implements Fixer
             return '';
         }
 
-        $explodedContent = explode("\n", $prevToken->content);
+        $explodedContent = explode("\n", $prevToken->getContent());
 
         return end($explodedContent);
     }
@@ -111,6 +111,6 @@ class SingleUseFixer implements Fixer
 
     public function getDescription()
     {
-        return 'There MUST be one use keyword per class and MUST be ordered.';
+        return 'There MUST be one use keyword per class and they MUST be ordered.';
     }
 }
