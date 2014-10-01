@@ -25,7 +25,7 @@ class Config extends BaseConfig
 
         $this->fixers(array(
             // PSR-0
-            // 'psr0',
+            'psr0',
 
             // PSR-1
             'encoding',
