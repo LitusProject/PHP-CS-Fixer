@@ -17,6 +17,12 @@ use RuntimeException,
 
 class SingleUseFixer implements Fixer
 {
+    public function isCandidate(Tokens $tokens)
+    {
+        // TODO: This should probably be changed at some point.
+        return true;
+    }
+
     public function fix(SplFileInfo $file, Tokens $tokens)
     {
         $uses = array_reverse($tokens->getNamespaceUseIndexes());
