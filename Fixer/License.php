@@ -12,7 +12,8 @@ namespace Litus\CodeStyle\Fixer;
 
 use RuntimeException,
     SplFileInfo,
-    Symfony\CS\FixerInterface as Fixer;
+    Symfony\CS\FixerInterface as Fixer,
+    Symfony\CS\Tokenizer\Tokens;
 
 class License implements Fixer
 {
@@ -50,31 +51,40 @@ class License implements Fixer
         }
     }
 
-    public function fix(SplFileInfo $file, $content)
+    public function isCandidate(Tokens $tokens)
+    {
+        // TODO: This should probably be changed at some point.
+        return true;
+    }
+
+    public function fix(SplFileInfo $file, Tokens $tokens)
     {
         $path = strtr($file->getRealPath(), '\\', '/');
 
-        if (preg_match(self::REGEXP_NO_LICENSE, $content)) {
-            echo 'Adding license to ' . $path . PHP_EOL;
+        foreach ($tokens as $token) {
+            $content = $token->getContent();
 
-            return preg_replace(self::REGEXP_NO_LICENSE, "<?php\n" . $this->_license . "\n\n", $content);
+            if (preg_match(self::REGEXP_NO_LICENSE, $content)) {
+                echo 'Adding license to ' . $path . PHP_EOL;
+
+                $token->setContent(preg_replace(self::REGEXP_NO_LICENSE, "<?php\n" . $this->_license . "\n\n", $content));
+                continue;
+            }
+
+            if (!preg_match(self::REGEXP_LICENSE, $content, $matches)) {
+                echo 'File ' . $path . ' has a weird header:' . PHP_EOL;
+                echo implode(PHP_EOL, array_slice(preg_split(self::REGEXP_NEWLINE, $content), 0, 5)) . PHP_EOL;
+
+                continue;
+            }
+
+            $matchedLicense = $matches[1];
+            if (strcmp($matchedLicense, $this->_license) !== 0) {
+                echo 'File ' . $path . ' has a different license header, replacing...' . PHP_EOL;
+
+                $token->setContent(preg_replace(self::REGEXP_LICENSE, "<?php\n" . $this->_license, $content));
+            }
         }
-
-        if (!preg_match(self::REGEXP_LICENSE, $content, $matches)) {
-            echo 'File ' . $path . ' has a weird header:' . PHP_EOL;
-            echo implode(PHP_EOL, array_slice(preg_split(self::REGEXP_NEWLINE, $content), 0, 5)) . PHP_EOL;
-
-            return $content;
-        }
-
-        $matchedLicense = $matches[1];
-        if (strcmp($matchedLicense, $this->_license) !== 0) {
-            echo 'File ' . $path . ' has a different license header, replacing...' . PHP_EOL;
-
-            return preg_replace(self::REGEXP_LICENSE, "<?php\n" . $this->_license, $content);
-        }
-
-        return $content;
     }
 
     public function getLevel()
