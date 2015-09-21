@@ -17,9 +17,8 @@ use RuntimeException,
 
 class SingleUseFixer implements Fixer
 {
-    public function fix(SplFileInfo $file, $content)
+    public function fix(SplFileInfo $file, Tokens $tokens)
     {
-        $tokens = Tokens::fromCode($content);
         $uses = array_reverse($tokens->getNamespaceUseIndexes());
 
         $newUses = array();
