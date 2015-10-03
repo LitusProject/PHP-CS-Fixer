@@ -23,56 +23,89 @@ class Config extends BaseConfig
 
         $this->finder(new Finder());
 
-        $this->fixers(array(
-            // PSR-0
-            'psr0',
+        $this->setRules(
+            array(
+                //'psr0' => true,
 
-            // PSR-1
-            'encoding',
-            'short_tag',
+                // PSR-1
+                'encoding' => true,
+                'short_tag' => true,
 
-            // PSR-2
-            'braces',
-            'elseif',
-            'eof_ending',
-            'function_declaration',
-            'indentation',
-            'line_after_namespace',
-            'linefeed',
-            'lowercase_constants',
-            'lowercase_keywords',
-            // 'multiple_use',
-            'php_closing_tag',
-            'trailing_spaces',
-            'visibility',
+                // PSR-2
+                'braces' => true,
+                'elseif' => true,
+                'eof_ending' => true,
+                //'function_call_space' => true,
+                'function_declaration' => true,
+                'indentation' => true,
+                'line_after_namespace' => true,
+                'linefeed' => true,
+                'lowercase_constants' => true,
+                'lowercase_keywords' => true,
+                //'method_argument_space' => true,
+                //'multiple_use' => true,
+                //'parenthesis' => true,
+                'php_closing_tag' => true,
+                //'single_line_after_imports' => true,
+                'trailing_spaces' => true,
+                'visibility' => true,
 
-            // Symfony
-            // 'concat_without_spaces',
-            'extra_empty_lines',
-            'include',
-            'multiline_array_trailing_comma',
-            'new_with_braces',
-            'object_operator',
-            'operators_spaces',
-            'phpdoc_params',
-            'return',
-            'single_array_no_trailing_comma',
-            'spaces_cast',
-            'standardize_not_equal',
-            'ternary_spaces',
-            // 'unused_use',
-            'whitespacy_lines',
+                // Symfony
+                //'alias_functions' => true,
+                //'blankline_after_open_tag' => true,
+                'concat_with_spaces' => true,
+                //'concat_without_spaces' => true,
+                //'double_arrow_multiline_whitespaces' => true,
+                //'duplicate_semicolon' => true,
+                //'empty_return' => true,
+                'extra_empty_lines' => true,
+                'include' => true,
+                //'list_commas' => true,
+                //'method_separation' => true,
+                'multiline_array_trailing_comma' => true,
+                //'namespace_no_leading_whitespace' => true,
+                'new_with_braces' => true,
+                //'no_blank_lines_after_class_opening' => true,
+                //'no_empty_lines_after_phpdocs' => true,
+                'object_operator' => true,
+                'operators_spaces' => true,
+                'phpdoc_align' => true,
+                'phpdoc_indent' => true,
+                // 'phpdoc_inline_tag' => true,
+                // 'phpdoc_no_access' => true,
+                // 'phpdoc_no_empty_return' => true,
+                // 'phpdoc_no_package' => true,
+                // 'phpdoc_scalar' => true,
+                // 'phpdoc_separation' => true,
+                // 'phpdoc_short_description' => true,
+                // 'phpdoc_to_comment' => true,
+                // 'phpdoc_trim' => true,
+                // 'phpdoc_type_to_var' => true,
+                // 'phpdoc_var_without_name' => true,
+                // 'pre_increment' => true,
+                // 'remove_leading_slash_use' => true,
+                // 'remove_lines_between_uses' => true,
+                'return' => true,
+                //'self_accessor' => true,
+                'single_array_no_trailing_comma' => true,
+                //'single_blank_line_before_namespace' => true,
+                //'single_quote' => true,
+                //'spaces_before_semicolon' => true,
+                'spaces_cast' => true,
+                'standardize_not_equal' => true,
+                'ternary_spaces' => true,
+                //'trim_array_spaces' => true,
+                //'unalign_double_arrow' => true,
+                //'unalign_equals' => true,
+                //'unary_operators_spaces' => true,
+                //'unused_use' => true,
+                'whitespacy_lines' => true,
 
-            // Contrib
-            'concat_with_spaces',
-            // 'ordered_use_fixer',
-            // 'short_array_syntax',
-            // 'strict',
-
-            // Litus
-            'license',
-            'single_use',
-        ));
+                // Litus
+                'license' => true,
+                'single_use' => true,
+            )
+        );
 
         $this->addCustomFixer(new SingleUseFixer());
     }

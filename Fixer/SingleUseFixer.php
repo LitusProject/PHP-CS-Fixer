@@ -48,7 +48,7 @@ final class SingleUseFixer extends AbstractFixer
             }
 
             for ($i = $index; $i <= $endIndex; ++$i) {
-                $tokens[$i]->clear();
+                $tokens[$i]->setContent('');
             }
         }
 
