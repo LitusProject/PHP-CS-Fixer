@@ -10,27 +10,25 @@
 
 namespace Litus\CodeStyle\Fixer;
 
-use RuntimeException,
-    SplFileInfo,
-    Symfony\CS\FixerInterface as Fixer,
-    Symfony\CS\Tokenizer\Tokens;
+use Symfony\CS\AbstractFixer,
+    Symfony\CS\Tokenizer\Tokens,
+    Symfony\CS\Tokenizer\TokensAnalyzer;
 
-class SingleUseFixer implements Fixer
+final class SingleUseFixer extends AbstractFixer
 {
     public function isCandidate(Tokens $tokens)
     {
-        // TODO: This should probably be changed at some point.
-        return true;
+        return $tokens->isTokenKindFound(T_USE);
     }
 
-    public function fix(SplFileInfo $file, Tokens $tokens)
+    public function fix(\SplFileInfo $file, Tokens $tokens)
     {
-        $uses = array_reverse($tokens->getNamespaceUseIndexes());
+        $tokensAnalyzer = new TokensAnalyzer($tokens);
+        $uses = array_reverse($tokensAnalyzer->getImportUseIndexes());
 
         $newUses = array();
-        $firstIndex = null;
         $indentation = '';
-        $first = true;
+        $firstIndex = null;
 
         foreach ($uses as $index) {
             if (null === $firstIndex) {
@@ -67,10 +65,9 @@ class SingleUseFixer implements Fixer
 
         $declarationTokens = Tokens::fromCode("<?php\n" . $declarationContent);
         $declarationTokens[0]->clear();
+        $declarationTokens->clearEmptyTokens();
 
         $tokens->insertAt($firstIndex, $declarationTokens);
-
-        return $tokens->generateCode();
     }
 
     private function detectIndent(Tokens $tokens, $index)
@@ -104,7 +101,7 @@ class SingleUseFixer implements Fixer
     /**
      * Supports all .php files.
      */
-    public function supports(SplFileInfo $file)
+    public function supports(\SplFileInfo $file)
     {
         return 'php' == pathinfo($file->getFilename(), PATHINFO_EXTENSION);
     }

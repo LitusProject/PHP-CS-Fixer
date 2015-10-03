@@ -1,7 +1,7 @@
 {
     "name": "litus/php-cs",
     "require": {
-        "fabpot/php-cs-fixer": "dev-master#825869155400bdca2a6f1c161d76a19381c957fa"
+        "fabpot/php-cs-fixer": "dev-master"
     },
     "license": "GPL-3.0+",
     "autoload": {
