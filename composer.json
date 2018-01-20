@@ -1,7 +1,7 @@
 {
     "name": "litus/php-cs",
     "require": {
-        "friendsofphp/php-cs-fixer": "dev-master"
+        "friendsofphp/php-cs-fixer": "~1.0"
     },
     "license": "GPL-3.0+",
     "autoload": {
