@@ -1,7 +1,7 @@
 {
     "name": "litus/php-cs",
     "require": {
-        "fabpot/php-cs-fixer": "1.13.3"
+        "friendsofphp/php-cs-fixer": "@stable"
     },
     "license": "GPL-3.0-or-later",
     "autoload": {
