@@ -10,9 +10,11 @@
 
 namespace Litus\CodeStyle\Fixer;
 
-use Symfony\CS\AbstractFixer,
-    Symfony\CS\Tokenizer\Tokens,
-    Symfony\CS\Tokenizer\TokensAnalyzer;
+use PhpCsFixer\AbstractFixer,
+    PhpCsFixer\FixerDefinition\CodeSample,
+    PhpCsFixer\FixerDefinition\FixerDefinition,
+    PhpCsFixer\Tokenizer\Tokens,
+    PhpCsFixer\Tokenizer\TokensAnalyzer;
 
 final class SingleUseFixer extends AbstractFixer
 {
@@ -21,7 +23,19 @@ final class SingleUseFixer extends AbstractFixer
         return $tokens->isTokenKindFound(T_USE);
     }
 
-    public function fix(\SplFileInfo $file, Tokens $tokens)
+    public function getDefinition()
+    {
+        return new FixerDefinition(
+            'PHP files MUST contain one use keyword per class and they MUST be ordered.',
+            [
+                new CodeSample(
+                    "<?php use A, \r\n     B;\n"
+                ),
+            ]
+        );
+    }
+
+    protected function applyFix(\SplFileInfo $file, Tokens $tokens)
     {
         $tokensAnalyzer = new TokensAnalyzer($tokens);
         $uses = array_reverse($tokensAnalyzer->getImportUseIndexes());
@@ -108,7 +122,7 @@ final class SingleUseFixer extends AbstractFixer
 
     public function getName()
     {
-        return 'single_use';
+        return 'Litus/single_use';
     }
 
     public function getDescription()

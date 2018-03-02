@@ -10,10 +10,9 @@
 
 namespace Litus\CodeStyle\Config;
 
-use Litus\CodeStyle\Finder\Finder,
-    Litus\CodeStyle\Fixer\License as LicenseFixer,
+use Litus\CodeStyle\Fixer\LicenseFixer,
     Litus\CodeStyle\Fixer\SingleUseFixer,
-    Symfony\CS\Config\Config as BaseConfig;
+    PhpCsFixer\Config as BaseConfig;
 
 class Config extends BaseConfig
 {
@@ -21,54 +20,57 @@ class Config extends BaseConfig
     {
         parent::__construct('litus', 'The configuration for Litus');
 
-        $this->finder(new Finder());
-
         $this->setRules(
             array(
                 //'psr0' => true,
 
                 // PSR-1
                 'encoding' => true,
-                'short_tag' => true,
+                'full_opening_tag' => true,
 
                 // PSR-2
                 'braces' => true,
                 'elseif' => true,
-                'eof_ending' => true,
-                //'function_call_space' => true,
+                'single_blank_line_at_eof' => true,
+                //'no_spaces_after_function_name' => true,
                 'function_declaration' => true,
-                'indentation' => true,
-                'line_after_namespace' => true,
-                'linefeed' => true,
+                'indentation_type' => true,
+                'blank_line_after_namespace' => true,
+                'line_ending' => true,
                 'lowercase_constants' => true,
                 'lowercase_keywords' => true,
                 //'method_argument_space' => true,
-                //'multiple_use' => true,
-                //'parenthesis' => true,
-                'php_closing_tag' => true,
+                //'single_import_per_statement' => true,
+                //'no_spaces_inside_parenthesis' => true,
+                'no_closing_tag' => true,
                 //'single_line_after_imports' => true,
-                'trailing_spaces' => true,
-                'visibility' => true,
+                'no_trailing_whitespace' => true,
+                'visibility_required' => true,
 
                 // Symfony
                 //'alias_functions' => true,
-                //'blankline_after_open_tag' => true,
-                'concat_with_spaces' => true,
-                //'concat_without_spaces' => true,
-                //'double_arrow_multiline_whitespaces' => true,
-                //'duplicate_semicolon' => true,
-                //'empty_return' => true,
-                'extra_empty_lines' => true,
+                //'blank_line_after_opening_tag' => true,
+                'concat_space' => [
+                    'spacing' => 'one',
+                ],
+                //'no_multiline_whitespace_around_double_arrow' => true,
+                //'no_empty_statement' => true,
+                //'simplified_null_return' => true,
+                'no_extra_consecutive_blank_lines' => true,
                 'include' => true,
-                //'list_commas' => true,
+                //'no_trailing_comma_in_list_call' => true,
                 //'method_separation' => true,
-                'multiline_array_trailing_comma' => true,
-                //'namespace_no_leading_whitespace' => true,
+                'trailing_comma_in_multiline_array' => true,
+                //'no_leading_namespace_whitespace' => true,
                 'new_with_braces' => true,
                 //'no_blank_lines_after_class_opening' => true,
-                //'no_empty_lines_after_phpdocs' => true,
-                'object_operator' => true,
-                'operators_spaces' => true,
+                //'no_blank_lines_after_phpdoc' => true,
+                'object_operator_without_whitespace' => true,
+                'binary_operator_spaces' => [
+                    'operators' => [
+                        '=>' => 'align_single_space_minimal',
+                    ],
+                ],
                 'phpdoc_align' => true,
                 'phpdoc_indent' => true,
                 // 'phpdoc_inline_tag' => true,
@@ -77,54 +79,48 @@ class Config extends BaseConfig
                 // 'phpdoc_no_package' => true,
                 // 'phpdoc_scalar' => true,
                 // 'phpdoc_separation' => true,
-                // 'phpdoc_short_description' => true,
+                // 'phpdoc_summary' => true,
                 // 'phpdoc_to_comment' => true,
                 // 'phpdoc_trim' => true,
-                // 'phpdoc_type_to_var' => true,
+                // 'phpdoc_no_alias_tag' => true,
                 // 'phpdoc_var_without_name' => true,
                 // 'pre_increment' => true,
-                // 'remove_leading_slash_use' => true,
-                // 'remove_lines_between_uses' => true,
-                'return' => true,
+                // 'no_leading_import_slash' => true,
+                // 'no_extra_consecutive_blank_lines' => true,
+                'blank_line_before_return' => true,
                 //'self_accessor' => true,
-                'single_array_no_trailing_comma' => true,
+                'no_trailing_comma_in_singleline_array' => true,
                 //'single_blank_line_before_namespace' => true,
                 //'single_quote' => true,
-                //'spaces_before_semicolon' => true,
-                'spaces_cast' => true,
-                'standardize_not_equal' => true,
-                'ternary_spaces' => true,
+                //'no_singleline_whitespace_before_semicolons' => true,
+                'cast_spaces' => true,
+                'standardize_not_equals' => true,
+                'ternary_operator_spaces' => true,
                 //'trim_array_spaces' => true,
-                //'unalign_double_arrow' => true,
-                //'unalign_equals' => true,
-                //'unary_operators_spaces' => true,
-                //'unused_use' => true,
-                'whitespacy_lines' => true,
+                //'unary_operator_spaces' => true,
+                //'no_unused_imports' => true,
+                'no_whitespace_in_blank_line' => true,
 
                 // Litus
-                'license' => true,
-                'single_use' => true,
+                'Litus/license' => true,
+                'Litus/single_use' => true,
             )
         );
 
-        $this->addCustomFixer(new SingleUseFixer());
+        $this->registerCustomFixers(
+            [ 
+                new SingleUseFixer(),
+            ]
+        );
     }
-    /**
-     * Adds a fixer to check for the existence of a license.
-     *
-     * @param  string                         $file a file containing the unformatted license
-     * @return \Litus\CodeStyle\Fixer\License
-     */
+    
     public function setLicense($file)
     {
-        $this->addCustomFixer(new LicenseFixer($file));
-
-        return $this;
-    }
-
-    public function excludeFile($file)
-    {
-        $this->finder->excludeFile($file);
+        $this->registerCustomFixers(
+            [
+                new LicenseFixer($file),
+            ]
+        );
 
         return $this;
     }

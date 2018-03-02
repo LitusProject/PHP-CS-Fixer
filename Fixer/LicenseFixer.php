@@ -10,13 +10,13 @@
 
 namespace Litus\CodeStyle\Fixer;
 
-use RuntimeException,
-    SplFileInfo,
-    Symfony\CS\AbstractFixer,
-    Symfony\CS\FixerInterface as Fixer,
-    Symfony\CS\Tokenizer\Tokens;
+use PhpCsFixer\AbstractFixer,
+    PhpCsFixer\FixerInterface as Fixer,
+    PhpCsFixer\Tokenizer\Tokens,
+    RuntimeException,
+    SplFileInfo;
 
-class License extends AbstractFixer
+class LicenseFixer extends AbstractFixer
 {
     //const REGEXP_NO_LICENSE          = '/^<\?php\s*\r?\n\s*\r?\n/s';
     const REGEXP_NO_LICENSE          = '/^\r?\n\s*\r?\n/s';
@@ -61,7 +61,14 @@ class License extends AbstractFixer
         return true;
     }
 
-    public function fix(SplFileInfo $file, Tokens $tokens)
+    public function getDefinition()
+    {
+        return new FixerDefinition(
+            'PHP files must contain the Litus license header right after <?php.', []
+        );
+    }
+
+    public function applyFix(SplFileInfo $file, Tokens $tokens)
     {
         $path = strtr($file->getRealPath(), '\\', '/');
 
@@ -121,11 +128,11 @@ class License extends AbstractFixer
 
     public function getName()
     {
-        return 'license';
+        return 'Litus/license';
     }
 
     public function getDescription()
     {
-        return 'PHP code must contain the Litus license header right after <?php';
+        return 'PHP code must contain the Litus license header right after <?php.';
     }
 }

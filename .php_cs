@@ -1,6 +1,6 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = PhpCsFixer\Finder::create()
     ->exclude('Resources')
     ->in(__DIR__);
 
